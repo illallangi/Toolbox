@@ -7,6 +7,7 @@ RUN yum -y install \
       curl \
       findutils \
       iproute \
+      iputils \
       nano \
       openssh-clients \
       procps-ng \
