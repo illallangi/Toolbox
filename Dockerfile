@@ -3,7 +3,7 @@ FROM docker.io/fedora:31
 MAINTAINER Andrew Cole <andrew.cole@illallangi.com>
 
 RUN yum -y install \
-      bindutils \
+      bind-utils \
       coreutils \
       curl \
       findutils \
