@@ -9,10 +9,12 @@ RUN yum -y install \
       findutils \
       iproute \
       iputils \
+      mtr \
       nano \
       openssh-clients \
       procps-ng \
       rsync \
+      traceroute \
       wget \
       which; \
     yum -y update; \
