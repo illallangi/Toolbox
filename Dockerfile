@@ -7,6 +7,7 @@ RUN yum -y install \
       coreutils \
       curl \
       findutils \
+      fio \
       iproute \
       iputils \
       mtr \
