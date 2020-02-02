@@ -2,7 +2,7 @@ FROM docker.io/fedora:31
 
 MAINTAINER Andrew Cole <andrew.cole@illallangi.com>
 
-RUN yum -y install coreutils findutils which openssh-clients rsync procps-ng nano; \
+RUN yum -y install coreutils findutils which openssh-clients rsync procps-ng nano iputils; \
     yum -y update; \
     yum -y clean all
 
