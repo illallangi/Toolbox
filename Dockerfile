@@ -9,6 +9,7 @@ RUN yum -y install \
       findutils \
       fio \
       iproute \
+      iperf3 \
       iputils \
       mtr \
       nano \
