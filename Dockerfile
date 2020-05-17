@@ -8,6 +8,7 @@ RUN yum -y install \
       curl \
       findutils \
       fio \
+      git \
       iproute \
       iperf3 \
       iputils \
@@ -15,6 +16,7 @@ RUN yum -y install \
       nano \
       openssh-clients \
       procps-ng \
+      python3-pip \
       rsync \
       traceroute \
       wget \
