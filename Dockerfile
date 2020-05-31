@@ -16,6 +16,7 @@ RUN yum -y install \
       nano \
       openssh-clients \
       procps-ng \
+      python2-pip \
       python3-pip \
       rsync \
       traceroute \
@@ -23,6 +24,10 @@ RUN yum -y install \
       which; \
     yum -y update; \
     yum -y clean all
+
+RUN wget \
+      https://raw.githubusercontent.com/illallangi/hardlinkpy/master/hardlink.py \
+      --output-file=/usr/local/bin/hardlink.py
 
 COPY entrypoint.sh /entrypoint.sh
 
