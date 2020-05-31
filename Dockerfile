@@ -27,7 +27,7 @@ RUN yum -y install \
 
 RUN wget \
       https://raw.githubusercontent.com/illallangi/hardlinkpy/master/hardlink.py \
-      --output-file=/usr/local/bin/hardlink.py
+      --output-document=/usr/local/bin/hardlink.py
 
 COPY entrypoint.sh /entrypoint.sh
 
