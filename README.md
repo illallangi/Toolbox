@@ -1,7 +1,7 @@
-# Toolbox
-[![Docker Pulls](https://img.shields.io/docker/pulls/illallangi/toolbox.svg)](https://hub.docker.com/r/illallangi/toolbox)
-[![Image Size](https://images.microbadger.com/badges/image/illallangi/toolbox.svg)](https://microbadger.com/images/illallangi/toolbox)
-![Build](https://github.com/illallangi/Toolbox/workflows/Build/badge.svg)
+# Toolbx
+[![Docker Pulls](https://img.shields.io/docker/pulls/illallangi/toolbx.svg)](https://hub.docker.com/r/illallangi/toolbx)
+[![Image Size](https://images.microbadger.com/badges/image/illallangi/toolbx.svg)](https://microbadger.com/images/illallangi/toolbx)
+![Build](https://github.com/illallangi/Toolbx/workflows/Build/badge.svg)
 
 A collection of utilities installed onto a debian base image
 

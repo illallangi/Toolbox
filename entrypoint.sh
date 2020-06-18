@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-TOOLBOX_COMMAND=${@:-/bin/sleep 24h}
+TOOLBX_COMMAND=${@:-/bin/sleep 24h}
 
-echo $TOOLBOX_COMMAND
-$TOOLBOX_COMMAND
+echo $TOOLBX_COMMAND
+$TOOLBX_COMMAND
