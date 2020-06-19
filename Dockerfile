@@ -20,6 +20,7 @@ RUN apt-get -y update && apt-get install -y \
       fio \
       git \
       iperf3 \
+      librsvg2-bin \
       mtr \
       nano \
       openssh-client \
