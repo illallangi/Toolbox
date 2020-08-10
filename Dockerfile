@@ -26,19 +26,10 @@ RUN apt-get -y update && apt-get install -y \
       nano \
       openssh-client \
       procps \
-      python-pip \
-      python3-pip \
       rsync \
       traceroute \
       wget \
     && rm -rf /var/lib/apt/lists/*
-
-# Configure alternatives
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2 && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3.7 3 && \
-    sed -i "1s/python$/python2/" /usr/bin/pip2 && \
-    update-alternatives --install /usr/bin/pip pip /usr/bin/pip2 2 && \
-    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 3
 
 # Copy hardlinkable
 COPY --from=0 /go/hardlinkable /usr/local/bin/hardlinkable
