@@ -21,6 +21,7 @@ RUN apt-get -y update && apt-get install -y \
       git \
       iperf3 \
       librsvg2-bin \
+      libxml2-utils \
       mtr \
       nano \
       openssh-client \
