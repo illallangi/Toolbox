@@ -1,4 +1,4 @@
-FROM docker.io/library/golang:1.11
+FROM docker.io/library/golang:1.15.0
 
 RUN apt-get -y update && apt-get install -y \
       musl-tools
