@@ -1,4 +1,4 @@
-FROM docker.io/library/golang:1.11
+FROM docker.io/library/golang:1.15.0
 
 RUN apt-get -y update && apt-get install -y \
       musl-tools
@@ -9,7 +9,7 @@ RUN go get github.com/chadnetzer/hardlinkable && \
 ENV CC=/usr/bin/musl-gcc
 RUN go build -ldflags "-linkmode external -extldflags -static" -o hardlinkable github.com/chadnetzer/hardlinkable/cmd/hardlinkable
 
-FROM docker.io/library/debian:buster-20200607
+FROM docker.io/library/debian:buster-20200803
 MAINTAINER Andrew Cole <andrew.cole@illallangi.com>
 
 # Install packages
@@ -20,6 +20,7 @@ RUN apt-get -y update && apt-get install -y \
       fio \
       git \
       iperf3 \
+      jq \
       librsvg2-bin \
       libxml2-utils \
       mtr \
