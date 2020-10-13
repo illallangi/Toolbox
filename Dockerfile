@@ -32,6 +32,10 @@ RUN apt-get -y update && apt-get install -y \
       wget \
     && rm -rf /var/lib/apt/lists/*
 
+# Install yq
+RUN curl https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64 --location --output /usr/local/bin/yq \
+    && chmod +x /usr/local/bin/yq
+
 # Copy hardlinkable
 COPY --from=0 /go/hardlinkable /usr/local/bin/hardlinkable
 
