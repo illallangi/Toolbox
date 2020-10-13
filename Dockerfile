@@ -9,7 +9,7 @@ RUN go get github.com/chadnetzer/hardlinkable && \
 ENV CC=/usr/bin/musl-gcc
 RUN go build -ldflags "-linkmode external -extldflags -static" -o hardlinkable github.com/chadnetzer/hardlinkable/cmd/hardlinkable
 
-FROM docker.io/library/debian:buster-20200803
+FROM docker.io/library/debian:buster-20201012
 MAINTAINER Andrew Cole <andrew.cole@illallangi.com>
 
 # Install packages
