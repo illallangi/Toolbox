@@ -23,6 +23,7 @@ RUN apt-get -y update && apt-get install -y \
       jq \
       librsvg2-bin \
       libxml2-utils \
+      mdns-scan \
       mtr \
       nano \
       openssh-client \
