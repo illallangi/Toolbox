@@ -39,6 +39,10 @@ RUN apt-get -y update && apt-get install -y \
 RUN curl https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64 --location --output /usr/local/bin/yq \
     && chmod +x /usr/local/bin/yq
 
+# Install dumb-init
+RUN curl https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64 --location --output /usr/local/bin/dumb-init \
+    && chmod +x /usr/local/bin/dumb-init
+
 # Copy hardlinkable and goose
 COPY --from=0 /go/hardlinkable /usr/local/bin/hardlinkable
 COPY --from=0 /go/goose /usr/local/bin/goose
@@ -46,7 +50,7 @@ COPY --from=0 /go/goose /usr/local/bin/goose
 # Configure entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/dumb-init", "-v", "--", "/entrypoint.sh"]
 
 ARG VCS_REF
 ARG VERSION
