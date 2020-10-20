@@ -5,7 +5,7 @@ RUN apt-get -y update && apt-get install -y \
 
 RUN go get github.com/chadnetzer/hardlinkable && \
     go get github.com/spf13/cobra && \
-    go get bitbucket.org/liamstask/goose
+    go get bitbucket.org/liamstask/goose/cmd/goose
 
 ENV CC=/usr/bin/musl-gcc
 RUN go build -ldflags "-linkmode external -extldflags -static" -o hardlinkable github.com/chadnetzer/hardlinkable/cmd/hardlinkable
