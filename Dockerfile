@@ -39,6 +39,10 @@ RUN apt-get -y update && apt-get install -y \
 RUN curl https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64 --location --output /usr/local/bin/yq \
     && chmod +x /usr/local/bin/yq
 
+# Install confd
+RUN curl https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 --location --output /usr/local/bin/confd \
+    && chmod +x /usr/local/bin/confd
+
 # Copy hardlinkable and goose
 COPY --from=0 /go/hardlinkable /usr/local/bin/hardlinkable
 COPY --from=0 /go/goose /usr/local/bin/goose
