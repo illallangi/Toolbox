@@ -4,10 +4,12 @@ RUN apt-get -y update && apt-get install -y \
       musl-tools
 
 RUN go get github.com/chadnetzer/hardlinkable && \
-    go get github.com/spf13/cobra
+    go get github.com/spf13/cobra && \
+    go get bitbucket.org/liamstask/goose
 
 ENV CC=/usr/bin/musl-gcc
 RUN go build -ldflags "-linkmode external -extldflags -static" -o hardlinkable github.com/chadnetzer/hardlinkable/cmd/hardlinkable
+RUN go build -ldflags "-linkmode external -extldflags -static" -o goose bitbucket.org/liamstask/goose/cmd/goose
 
 FROM docker.io/library/debian:buster-20201012
 MAINTAINER Andrew Cole <andrew.cole@illallangi.com>
@@ -37,8 +39,9 @@ RUN apt-get -y update && apt-get install -y \
 RUN curl https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64 --location --output /usr/local/bin/yq \
     && chmod +x /usr/local/bin/yq
 
-# Copy hardlinkable
+# Copy hardlinkable and goose
 COPY --from=0 /go/hardlinkable /usr/local/bin/hardlinkable
+COPY --from=0 /go/goose /usr/local/bin/goose
 
 # Configure entrypoint
 COPY entrypoint.sh /entrypoint.sh
