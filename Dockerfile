@@ -39,6 +39,10 @@ RUN apt-get -y update && apt-get install -y \
 RUN curl https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64 --location --output /usr/local/bin/yq \
     && chmod +x /usr/local/bin/yq
 
+# Install confd
+RUN curl https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 --location --output /usr/local/bin/confd \
+    && chmod +x /usr/local/bin/confd
+
 # Install dumb-init
 RUN curl https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64 --location --output /usr/local/bin/dumb-init \
     && chmod +x /usr/local/bin/dumb-init
