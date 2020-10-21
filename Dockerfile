@@ -3,13 +3,16 @@ FROM docker.io/library/golang:1.15.3
 RUN apt-get -y update && apt-get install -y \
       musl-tools
 
-RUN go get github.com/chadnetzer/hardlinkable && \
-    go get github.com/spf13/cobra && \
-    go get bitbucket.org/liamstask/goose/cmd/goose
+RUN go get github.com/chadnetzer/hardlinkable
+RUN go get github.com/spf13/cobra
+RUN go get bitbucket.org/liamstask/goose/cmd/goose
+RUN go get github.com/cloudflare/cfssl/cmd/...
 
 ENV CC=/usr/bin/musl-gcc
 RUN go build -ldflags "-linkmode external -extldflags -static" -o hardlinkable github.com/chadnetzer/hardlinkable/cmd/hardlinkable
 RUN go build -ldflags "-linkmode external -extldflags -static" -o goose bitbucket.org/liamstask/goose/cmd/goose
+RUN go build -ldflags "-linkmode external -extldflags -static" -o cfssl github.com/cloudflare/cfssl/cmd/cfssl
+RUN go build -ldflags "-linkmode external -extldflags -static" -o cfssljson github.com/cloudflare/cfssl/cmd/cfssljson
 
 FROM docker.io/library/debian:buster-20201012
 MAINTAINER Andrew Cole <andrew.cole@illallangi.com>
@@ -50,6 +53,8 @@ RUN curl https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.
 # Copy hardlinkable and goose
 COPY --from=0 /go/hardlinkable /usr/local/bin/hardlinkable
 COPY --from=0 /go/goose /usr/local/bin/goose
+COPY --from=0 /go/cfssl /usr/local/bin/cfssl
+COPY --from=0 /go/cfssljson /usr/local/bin/cfssljson
 
 # Configure entrypoint
 COPY entrypoint.sh /entrypoint.sh
