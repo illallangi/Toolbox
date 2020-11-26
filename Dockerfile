@@ -1,4 +1,5 @@
-FROM docker.io/library/golang:1.15.3
+# Build hardlinkable, goose and cfssl
+FROM docker.io/library/golang:1.15.3 AS golang
 
 RUN apt-get -y update && apt-get install -y \
       musl-tools
@@ -14,6 +15,20 @@ RUN go build -ldflags "-linkmode external -extldflags -static" -o goose bitbucke
 RUN go build -ldflags "-linkmode external -extldflags -static" -o cfssl github.com/cloudflare/cfssl/cmd/cfssl
 RUN go build -ldflags "-linkmode external -extldflags -static" -o cfssljson github.com/cloudflare/cfssl/cmd/cfssljson
 
+# Build mktorrent
+FROM docker.io/library/debian:buster-20201012 AS make
+
+RUN apt-get -y update && apt-get install -y \
+          curl \
+          gcc \
+          make
+
+RUN mkdir -p /usr/local/src/mktorrent && \
+    curl https://github.com/pobrn/mktorrent/archive/master.tar.gz --location | \
+    tar -zxv --directory /usr/local/src/mktorrent --strip-components=1 && \
+    make --directory /usr/local/src/mktorrent
+
+# Main image
 FROM docker.io/library/debian:buster-20201012
 MAINTAINER Andrew Cole <andrew.cole@illallangi.com>
 
@@ -23,9 +38,11 @@ RUN apt-get -y update && apt-get install -y \
       curl \
       dnsutils \
       fio \
+      flac \
       git \
       iperf3 \
       jq \
+      lame \
       librsvg2-bin \
       libxml2-utils \
       mdns-scan \
@@ -33,6 +50,8 @@ RUN apt-get -y update && apt-get install -y \
       nano \
       openssh-client \
       procps \
+      python3-pip \
+      python3-setuptools \
       rsync \
       traceroute \
       wget \
@@ -50,11 +69,18 @@ RUN curl https://github.com/kelseyhightower/confd/releases/download/v0.16.0/conf
 RUN curl https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64 --location --output /usr/local/bin/dumb-init \
     && chmod +x /usr/local/bin/dumb-init
 
-# Copy hardlinkable and goose
-COPY --from=0 /go/hardlinkable /usr/local/bin/hardlinkable
-COPY --from=0 /go/goose /usr/local/bin/goose
-COPY --from=0 /go/cfssl /usr/local/bin/cfssl
-COPY --from=0 /go/cfssljson /usr/local/bin/cfssljson
+# Install whatmp3
+RUN curl https://github.com/RecursiveForest/whatmp3/archive/master.tar.gz --location | \
+    tar -zxv --directory /usr/local/bin --strip-components=1 --transform 's/.py//g' whatmp3-master/whatmp3.py
+
+# Copy hardlinkable, goose and cfssl
+COPY --from=golang /go/hardlinkable /usr/local/bin/hardlinkable
+COPY --from=golang /go/goose /usr/local/bin/goose
+COPY --from=golang /go/cfssl /usr/local/bin/cfssl
+COPY --from=golang /go/cfssljson /usr/local/bin/cfssljson
+
+# Copy mktorrent
+COPY --from=make /usr/local/src/mktorrent/mktorrent /usr/local/bin/mktorrent
 
 # Configure entrypoint
 COPY entrypoint.sh /entrypoint.sh
