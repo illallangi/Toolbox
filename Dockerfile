@@ -52,6 +52,7 @@ RUN apt-get -y update && apt-get install -y \
       procps \
       python3-pip \
       python3-setuptools \
+      rename \
       rsync \
       traceroute \
       wget \
