@@ -48,6 +48,7 @@ RUN apt-get -y update && apt-get install -y \
       mdns-scan \
       mtr \
       nano \
+      netcat \
       openssh-client \
       procps \
       python3-pip \
