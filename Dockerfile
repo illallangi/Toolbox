@@ -59,6 +59,10 @@ RUN apt-get -y update && apt-get install -y \
       wget \
     && rm -rf /var/lib/apt/lists/*
 
+# Install gosu
+RUN curl https://github.com/tianon/gosu/releases/download/1.12/gosu-amd64 --location --output /usr/local/bin/gosu \
+    && chmod +x /usr/local/bin/gosu
+
 # Install yq
 RUN curl https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64 --location --output /usr/local/bin/yq \
     && chmod +x /usr/local/bin/yq
@@ -83,6 +87,13 @@ COPY --from=golang /go/cfssljson /usr/local/bin/cfssljson
 
 # Copy mktorrent
 COPY --from=make /usr/local/src/mktorrent/mktorrent /usr/local/bin/mktorrent
+
+# Configure user
+ENV PUID=0 \
+    PGID=0
+
+RUN groupadd -g 1000 -r    abc && \
+    useradd  -u 1000 -r -g abc abc
 
 # Configure entrypoint
 COPY entrypoint.sh /entrypoint.sh
