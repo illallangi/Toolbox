@@ -96,9 +96,9 @@ RUN groupadd -g 1000 -r    abc && \
     useradd  -u 1000 -r -g abc abc
 
 # Configure entrypoint
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/usr/local/bin/dumb-init", "-v", "--", "/entrypoint.sh"]
+COPY bin/* /usr/local/bin/
+RUN chmod +x /usr/local/bin/*
+ENTRYPOINT ["/usr/local/bin/dumb-init", "-v", "--", "entrypoint.sh"]
 
 ARG VCS_REF
 ARG VERSION
