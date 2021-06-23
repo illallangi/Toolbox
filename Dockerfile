@@ -16,7 +16,7 @@ RUN go build -ldflags "-linkmode external -extldflags -static" -o cfssl github.c
 RUN go build -ldflags "-linkmode external -extldflags -static" -o cfssljson github.com/cloudflare/cfssl/cmd/cfssljson
 
 # Build mktorrent
-FROM docker.io/library/debian:buster-20210511 AS make
+FROM docker.io/library/debian:buster-20210621 AS make
 
 RUN apt-get -y update && apt-get install -y \
           curl \
@@ -29,7 +29,7 @@ RUN mkdir -p /usr/local/src/mktorrent && \
     make --directory /usr/local/src/mktorrent
 
 # Main image
-FROM docker.io/library/debian:buster-20210511
+FROM docker.io/library/debian:buster-20210621
 MAINTAINER Andrew Cole <andrew.cole@illallangi.com>
 
 # Install packages
