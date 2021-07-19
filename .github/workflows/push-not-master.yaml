@@ -21,9 +21,9 @@ jobs:
     - name: Setup Python
       id: python-setup
       uses: actions/setup-python@v1
-#    - name: Lint Python
-#      id: python-lint
-#      uses: whynothugo/python-linting@master
+    # - name: Lint Python
+    #   id: python-lint
+    #   uses: whynothugo/python-linting@master
     - name: Lint YAML
       uses: ibiqlik/action-yamllint@v1
       with:
