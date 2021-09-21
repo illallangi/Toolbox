@@ -6,6 +6,8 @@ PERM_GID="${PERM_GID:-$(id -g)}"
 PERM_DIR="${PERM_DIR:-0755}"
 PERM_FILE="${PERM_FILE:-0644}"
 
-chown -Rv ${PERM_UID}.${PERM_GID} "${TARGET}"
-chmod -Rv ${PERM_DIR} "${TARGET}"
-find "${TARGET}" -type f -print0 | xargs -0 chmod -v ${PERM_FILE}
+find "${TARGET}" ! -group ${PERM_GID}  -exec chown ${PERM_UID}.${PERM_GID} {} \;
+find "${TARGET}" ! -user  ${PERM_UID}  -exec chown ${PERM_UID} {} \;
+
+find "${TARGET}" -type d ! -perm ${PERM_DIR}  -exec chmod ${PERM_DIR} {} \;
+find "${TARGET}" -type f ! -perm ${PERM_FILE} -exec chmod ${PERM_FILE} {} \;
