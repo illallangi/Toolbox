@@ -79,6 +79,10 @@ RUN curl https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.
 RUN curl https://github.com/RecursiveForest/whatmp3/archive/master.tar.gz --location | \
     tar -zxv --directory /usr/local/bin --strip-components=1 --transform 's/.py//g' whatmp3-master/whatmp3.py
 
+# Install minecraft-backup
+RUN curl https://github.com/nicolaschan/minecraft-backup/releases/download/v1.2.0/backup.sh --location --output /usr/local/bin/minecraft-backup \
+    && chmod +x /usr/local/bin/minecraft-backup
+
 # Copy hardlinkable, goose and cfssl
 COPY --from=golang /go/hardlinkable /usr/local/bin/hardlinkable
 COPY --from=golang /go/goose /usr/local/bin/goose
