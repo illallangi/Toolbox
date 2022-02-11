@@ -46,6 +46,7 @@ RUN apt-get -y update && apt-get install -y \
       librsvg2-bin \
       libxml2-utils \
       mdns-scan \
+      moreutils \
       mtr \
       nano \
       netcat \
