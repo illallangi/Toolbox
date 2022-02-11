@@ -16,7 +16,7 @@ RUN go build -ldflags "-linkmode external -extldflags -static" -o cfssl github.c
 RUN go build -ldflags "-linkmode external -extldflags -static" -o cfssljson github.com/cloudflare/cfssl/cmd/cfssljson
 
 # Build mktorrent
-FROM docker.io/library/debian:buster-20211011 AS make
+FROM docker.io/library/debian:buster-20220125 AS make
 
 RUN apt-get -y update && apt-get install -y \
           curl \
@@ -29,8 +29,7 @@ RUN mkdir -p /usr/local/src/mktorrent && \
     make --directory /usr/local/src/mktorrent
 
 # Main image
-FROM docker.io/library/debian:buster-20211011
-MAINTAINER Andrew Cole <andrew.cole@illallangi.com>
+FROM docker.io/library/debian:buster-20220125
 
 # Install packages
 RUN apt-get -y update && apt-get install -y \
@@ -46,6 +45,7 @@ RUN apt-get -y update && apt-get install -y \
       librsvg2-bin \
       libxml2-utils \
       mdns-scan \
+      moreutils \
       mtr \
       nano \
       netcat \
@@ -82,6 +82,7 @@ RUN curl https://github.com/RecursiveForest/whatmp3/archive/master.tar.gz --loca
 # Install ipfs
 RUN curl https://dist.ipfs.io/go-ipfs/v0.10.0/go-ipfs_v0.10.0_linux-amd64.tar.gz --location | \
     tar -zxv --directory /usr/local/bin --strip-components=1 go-ipfs/ipfs
+
 # Copy hardlinkable, goose and cfssl
 COPY --from=golang /go/hardlinkable /usr/local/bin/hardlinkable
 COPY --from=golang /go/goose /usr/local/bin/goose
@@ -109,11 +110,11 @@ ARG BUILD_DATE
 LABEL maintainer="Andrew Cole <andrew.cole@illallangi.com>" \
       org.label-schema.build-date=${BUILD_DATE} \
       org.label-schema.description="A collection of utilities installed onto a debian base image" \
-      org.label-schema.name="Toolbx" \
+      org.label-schema.name="toolbx" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.url="http://github.com/illallangi/Toolbx" \
-      org.label-schema.usage="https://github.com/illallangi/Toolbx/blob/master/README.md" \
+      org.label-schema.url="http://github.com/illallangi/toolbx" \
+      org.label-schema.usage="https://github.com/illallangi/toolbx/blob/master/README.md" \
       org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/illallangi/Toolbx" \
+      org.label-schema.vcs-url="https://github.com/illallangi/toolbx" \
       org.label-schema.vendor="Illallangi Enterprises" \
       org.label-schema.version=$VERSION
