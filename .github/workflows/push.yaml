@@ -17,6 +17,7 @@ jobs:
       name: Docker meta
       uses: docker/metadata-action@v3
       with:
+        flavor: prefix=v,onlatest=false
         images: ghcr.io/${{ github.repository }}
         tags: type=semver,pattern={{version}},value=${{ steps.version.outputs.new_tag }}
     - name: Set up QEMU
