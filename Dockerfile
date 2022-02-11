@@ -30,7 +30,6 @@ RUN mkdir -p /usr/local/src/mktorrent && \
 
 # Main image
 FROM docker.io/library/debian:buster-20211011
-MAINTAINER Andrew Cole <andrew.cole@illallangi.com>
 
 # Install packages
 RUN apt-get -y update && apt-get install -y \
@@ -82,6 +81,7 @@ RUN curl https://github.com/RecursiveForest/whatmp3/archive/master.tar.gz --loca
 # Install ipfs
 RUN curl https://dist.ipfs.io/go-ipfs/v0.10.0/go-ipfs_v0.10.0_linux-amd64.tar.gz --location | \
     tar -zxv --directory /usr/local/bin --strip-components=1 go-ipfs/ipfs
+
 # Copy hardlinkable, goose and cfssl
 COPY --from=golang /go/hardlinkable /usr/local/bin/hardlinkable
 COPY --from=golang /go/goose /usr/local/bin/goose
