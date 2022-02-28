@@ -1,14 +1,14 @@
-# Toolbx
-[![Docker Pulls](https://img.shields.io/docker/pulls/illallangi/toolbx.svg)](https://hub.docker.com/r/illallangi/toolbx)
-[![Image Size](https://images.microbadger.com/badges/image/illallangi/toolbx.svg)](https://microbadger.com/images/illallangi/toolbx)
-![Build](https://github.com/illallangi/Toolbx/workflows/Build/badge.svg)
+toolbx
+============
 
-A collection of utilities installed onto a debian base image
+Utility Debian image with a bunch of tools installed.
 
-## Installation
+Install
+-------
 
-TBC
+TODO: Provide installation instructions
 
-## Usage
+Usage
+-----
 
-TBC
+TODO: Provide usage instructions
