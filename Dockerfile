@@ -59,7 +59,27 @@ RUN apt-get -y update && apt-get install -y \
       wget \
     && rm -rf /var/lib/apt/lists/*
 
+# Install gosu, yq, confd, dumb-init, whatmp3
+RUN \
+  curl https://github.com/tianon/gosu/releases/download/1.12/gosu-amd64 --location --output /usr/local/bin/gosu \
   && \
+  curl https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64 --location --output /usr/local/bin/yq \
+  && \
+  curl https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 --location --output /usr/local/bin/confd \
+  && \
+  curl https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64 --location --output /usr/local/bin/dumb-init \
+  && \
+  chmod +x \
+    /usr/local/bin/confd \
+    /usr/local/bin/dumb-init \
+    /usr/local/bin/gosu \
+    /usr/local/bin/yq \
+  && \
+  curl https://github.com/RecursiveForest/whatmp3/archive/master.tar.gz --location | \
+  tar -zxv --directory /usr/local/bin --strip-components=1 --transform 's/.py//g' whatmp3-master/whatmp3.py \
+  && \
+  curl https://dist.ipfs.io/go-ipfs/v0.10.0/go-ipfs_v0.10.0_linux-amd64.tar.gz --location | \
+  tar -zxv --directory /usr/local/bin --strip-components=1 go-ipfs/ipfs
 
 # Copy hardlinkable, goose and cfssl
 COPY --from=golang /go/hardlinkable /usr/local/bin/hardlinkable
