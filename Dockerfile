@@ -103,18 +103,3 @@ RUN groupadd -g 1000 -r    abc && \
 COPY bin/* /usr/local/bin/
 RUN chmod +x /usr/local/bin/*
 ENTRYPOINT ["/usr/local/bin/dumb-init", "-v", "--", "entrypoint.sh"]
-
-ARG VCS_REF
-ARG VERSION
-ARG BUILD_DATE
-LABEL maintainer="Andrew Cole <andrew.cole@illallangi.com>" \
-      org.label-schema.build-date=${BUILD_DATE} \
-      org.label-schema.description="A collection of utilities installed onto a debian base image" \
-      org.label-schema.name="toolbx" \
-      org.label-schema.schema-version="1.0" \
-      org.label-schema.url="http://github.com/illallangi/toolbx" \
-      org.label-schema.usage="https://github.com/illallangi/toolbx/blob/master/README.md" \
-      org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/illallangi/toolbx" \
-      org.label-schema.vendor="Illallangi Enterprises" \
-      org.label-schema.version=$VERSION
