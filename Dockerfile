@@ -1,8 +1,13 @@
 # Build hardlinkable, goose and cfssl
 FROM docker.io/library/golang:1.15.8 AS golang
 
-RUN apt-get -y update && apt-get install -y \
-      musl-tools
+RUN \
+  apt-get update \
+  && \
+  apt-get install -y \
+    musl-tools \
+  && \
+  rm -rf /var/lib/apt/lists/*
 
 RUN go get github.com/chadnetzer/hardlinkable
 RUN go get github.com/spf13/cobra
