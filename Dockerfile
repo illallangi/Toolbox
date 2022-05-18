@@ -18,10 +18,13 @@ RUN go build -ldflags "-linkmode external -extldflags -static" -o cfssljson gith
 # Build mktorrent
 FROM docker.io/library/debian:buster-20220125 AS make
 
-RUN apt-get -y update && apt-get install -y \
-          curl \
-          gcc \
-          make
+RUN \
+  apt-get update \
+  && \
+  apt-get install -y --no-install-recommends \
+    curl \
+    gcc \
+    make
 
 RUN mkdir -p /usr/local/src/mktorrent && \
     curl https://github.com/pobrn/mktorrent/archive/master.tar.gz --location | \
@@ -32,32 +35,36 @@ RUN mkdir -p /usr/local/src/mktorrent && \
 FROM docker.io/library/debian:buster-20220125
 
 # Install packages
-RUN apt-get -y update && apt-get install -y \
-      apt-utils \
-      curl \
-      dnsutils \
-      fio \
-      flac \
-      git \
-      iperf3 \
-      jq \
-      lame \
-      librsvg2-bin \
-      libxml2-utils \
-      mdns-scan \
-      moreutils \
-      mtr \
-      nano \
-      netcat \
-      openssh-client \
-      procps \
-      python3-pip \
-      python3-setuptools \
-      rename \
-      rsync \
-      traceroute \
-      wget \
-    && rm -rf /var/lib/apt/lists/*
+RUN \
+  apt-get update \
+  && \
+  apt-get install -y --no-install-recommends \
+    apt-utils \
+    curl \
+    dnsutils \
+    fio \
+    flac \
+    git \
+    iperf3 \
+    jq \
+    lame \
+    librsvg2-bin \
+    libxml2-utils \
+    mdns-scan \
+    moreutils \
+    mtr \
+    nano \
+    netcat \
+    openssh-client \
+    procps \
+    python3-pip \
+    python3-setuptools \
+    rename \
+    rsync \
+    traceroute \
+    wget \
+  && \
+  rm -rf /var/lib/apt/lists/*
 
 # Install gosu, yq, confd, dumb-init, whatmp3
 RUN \
