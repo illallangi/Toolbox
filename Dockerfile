@@ -1,5 +1,5 @@
 # Debian Builder image
-FROM docker.io/library/debian:buster-20220125 AS debian-builder
+FROM docker.io/library/debian:buster-20220509 AS debian-builder
 
 RUN \
   apt-get update \
@@ -126,7 +126,7 @@ RUN \
     /usr/local/bin/yq
 
 # Main image
-FROM docker.io/library/debian:buster-20220125
+FROM docker.io/library/debian:buster-20220509
 
 # Install packages
 RUN \
