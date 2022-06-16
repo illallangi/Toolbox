@@ -92,6 +92,19 @@ RUN \
   && \
   go build -ldflags "-linkmode external -extldflags -static" -o /usr/local/bin/hardlinkable github.com/chadnetzer/hardlinkable/cmd/hardlinkable
 
+# Build restic
+FROM debian-builder AS restic-builder
+
+RUN \
+  curl https://github.com/restic/restic/releases/download/v0.13.1/restic_0.13.1_linux_amd64.bz2 --location --output /usr/local/src/restic.bz2 \
+  && \
+  bzip2 --decompress --keep /usr/local/src/restic.bz2 \
+  && \
+  mv /usr/local/src/restic /usr/local/bin/restic \
+  && \
+  chmod +x \
+    /usr/local/bin/restic
+
 # Build mktorrent
 FROM debian-builder AS mktorrent-builder
 
@@ -175,6 +188,7 @@ COPY --from=go-ipfs-builder /usr/local/bin/ipfs /usr/local/bin/ipfs
 COPY --from=goose-builder /usr/local/bin/goose /usr/local/bin/goose
 COPY --from=gosu-builder /usr/local/bin/gosu /usr/local/bin/gosu
 COPY --from=hardlinkable-builder /usr/local/bin/hardlinkable /usr/local/bin/hardlinkable
+COPY --from=restic-builder /usr/local/bin/restic /usr/local/bin/restic
 COPY --from=mktorrent-builder /usr/local/bin/mktorrent /usr/local/bin/mktorrent
 COPY --from=whatmp3-builder /usr/local/bin/whatmp3 /usr/local/bin/whatmp3
 COPY --from=yacron-builder /usr/local/bin/yacron /usr/local/bin/yacron
@@ -188,6 +202,5 @@ RUN groupadd -g 1000 -r    abc && \
     useradd  -u 1000 -r -g abc abc
 
 # Configure entrypoint
-COPY bin/* /usr/local/bin/
-RUN chmod +x /usr/local/bin/*
+COPY root /
 ENTRYPOINT ["/usr/local/bin/dumb-init", "-v", "--", "entrypoint.sh"]
