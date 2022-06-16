@@ -116,6 +116,14 @@ RUN \
   && \
   cp /usr/local/src/whatmp3/whatmp3.py /usr/local/bin/whatmp3
 
+# Build yacron
+FROM debian-builder as yacron-builder
+RUN \
+  curl https://github.com/gjcarneiro/yacron/releases/download/0.16.0/yacron-0.16.0-x86_64-unknown-linux-gnu --location --output /usr/local/bin/yacron \
+  && \
+  chmod +x \
+    /usr/local/bin/yacron
+
 # Build yq
 FROM debian-builder as yq-builder
 
@@ -169,6 +177,7 @@ COPY --from=gosu-builder /usr/local/bin/gosu /usr/local/bin/gosu
 COPY --from=hardlinkable-builder /usr/local/bin/hardlinkable /usr/local/bin/hardlinkable
 COPY --from=mktorrent-builder /usr/local/bin/mktorrent /usr/local/bin/mktorrent
 COPY --from=whatmp3-builder /usr/local/bin/whatmp3 /usr/local/bin/whatmp3
+COPY --from=yacron-builder /usr/local/bin/yacron /usr/local/bin/yacron
 COPY --from=yq-builder /usr/local/bin/yq /usr/local/bin/yq
 
 # Configure user
