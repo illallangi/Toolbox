@@ -1,5 +1,5 @@
 # Debian Builder image
-FROM docker.io/library/debian:buster-20220527 AS debian-builder
+FROM docker.io/library/debian:buster-20220622 AS debian-builder
 
 RUN \
   apt-get update \
@@ -147,7 +147,7 @@ RUN \
     /usr/local/bin/yq
 
 # Main image
-FROM docker.io/library/debian:buster-20220527
+FROM docker.io/library/debian:buster-20220622
 
 # Install packages
 RUN \
@@ -174,6 +174,7 @@ RUN \
     procps=2:3.3.15-2 \
     python3-pip=18.1-5 \
     python3-setuptools=40.8.0-1 \
+    rclone=1.45-3 \
     rename=1.10-1 \
     rsync=3.1.3-6 \
     traceroute=1:2.1.0-2 \
