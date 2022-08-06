@@ -185,6 +185,7 @@ RUN \
     rename=1.10-1 \
     rsync=3.1.3-6 \
     traceroute=1:2.1.0-2 \
+    tree=1.8.0-1 \
   && \
   rm -rf /var/lib/apt/lists/*
 
