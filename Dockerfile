@@ -1,5 +1,5 @@
 # Debian Builder image
-FROM docker.io/library/debian:buster-20220622 AS debian-builder
+FROM docker.io/library/debian:buster-20220801 AS debian-builder
 
 RUN \
   apt-get update \
@@ -24,6 +24,13 @@ RUN \
     musl-tools=1.1.21-2 \
   && \
   rm -rf /var/lib/apt/lists/*
+
+# Build caddy
+FROM docker.io/library/caddy:2.5.2-builder AS caddy-builder
+
+RUN xcaddy build \
+    --with github.com/greenpau/caddy-security@v1.1.7 \
+    --with github.com/hairyhenderson/caddy-teapot-module@v0.0.3-0
 
 # Build cfssl and cfssljson
 FROM golang-builder AS cfssl-builder
@@ -147,7 +154,7 @@ RUN \
     /usr/local/bin/yq
 
 # Main image
-FROM docker.io/library/debian:buster-20220622
+FROM docker.io/library/debian:buster-20220801
 
 # Install packages
 RUN \
@@ -164,7 +171,7 @@ RUN \
     jq=1.5+dfsg-2+b1 \
     lame=3.100-2+b1 \
     librsvg2-bin=2.44.10-2.1 \
-    libxml2-utils=2.9.4+dfsg1-7+deb10u3 \
+    libxml2-utils=2.9.4+dfsg1-7+deb10u4 \
     mdns-scan=0.5-5 \
     moreutils=0.62-1 \
     mtr=0.92-2 \
@@ -178,9 +185,11 @@ RUN \
     rename=1.10-1 \
     rsync=3.1.3-6 \
     traceroute=1:2.1.0-2 \
+    tree=1.8.0-1 \
   && \
   rm -rf /var/lib/apt/lists/*
 
+COPY --from=caddy-builder /usr/bin/caddy /usr/local/bin/caddy
 COPY --from=cfssl-builder /usr/local/bin/cfssl /usr/local/bin/cfssl
 COPY --from=cfssl-builder /usr/local/bin/cfssljson /usr/local/bin/cfssljson
 COPY --from=confd-builder /usr/local/bin/confd /usr/local/bin/confd
