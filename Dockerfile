@@ -171,7 +171,7 @@ RUN \
     jq=1.5+dfsg-2+b1 \
     lame=3.100-2+b1 \
     librsvg2-bin=2.44.10-2.1 \
-    libxml2-utils=2.9.4+dfsg1-7+deb10u3 \
+    libxml2-utils=2.9.4+dfsg1-7+deb10u4 \
     mdns-scan=0.5-5 \
     moreutils=0.62-1 \
     mtr=0.92-2 \
