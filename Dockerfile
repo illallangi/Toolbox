@@ -153,6 +153,15 @@ RUN \
   chmod +x \
     /usr/local/bin/yq
 
+# Build yt-dlp
+FROM debian-builder as yt-dlp-builder
+
+RUN \
+  curl https://github.com/yt-dlp/yt-dlp/releases/download/2022.07.18/yt-dlp_linux --location --output /usr/local/bin/yt-dlp \
+  && \
+  chmod +x \
+    /usr/local/bin/yt-dlp
+
 # Main image
 FROM docker.io/library/debian:buster-20220801
 
@@ -203,6 +212,7 @@ COPY --from=mktorrent-builder /usr/local/bin/mktorrent /usr/local/bin/mktorrent
 COPY --from=whatmp3-builder /usr/local/bin/whatmp3 /usr/local/bin/whatmp3
 COPY --from=yacron-builder /usr/local/bin/yacron /usr/local/bin/yacron
 COPY --from=yq-builder /usr/local/bin/yq /usr/local/bin/yq
+COPY --from=yt-dlp-builder /usr/local/bin/yt-dlp /usr/local/bin/yt-dlp
 
 # Configure user
 ENV PUID=0 \
