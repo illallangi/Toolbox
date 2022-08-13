@@ -55,9 +55,9 @@ RUN \
 FROM debian-builder as dumb-init-builder
 
 RUN \
-  echo https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_$(uname -p) \
+  echo https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_$(uname -m) \
   && \
-  curl https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_$(uname -p) --location --output /usr/local/bin/dumb-init \
+  curl https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_$(uname -m) --location --output /usr/local/bin/dumb-init \
   && \
   chmod +x \
     /usr/local/bin/dumb-init
