@@ -7,7 +7,7 @@ RUN \
   apt-get install -y --no-install-recommends \
     build-essential=12.6 \
     ca-certificates=20200601~deb10u2 \
-    curl=7.64.0-4+deb10u2 \
+    curl=7.64.0-4+deb10u3 \
     gcc=4:8.3.0-1 \
     make=4.2.1-1.2 \
   && \
