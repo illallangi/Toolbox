@@ -7,7 +7,7 @@ RUN \
   apt-get install -y --no-install-recommends \
     build-essential=12.6 \
     ca-certificates=20200601~deb10u2 \
-    curl=7.64.0-4+deb10u2 \
+    curl=7.64.0-4+deb10u3 \
     gcc=4:8.3.0-1 \
     make=4.2.1-1.2 \
   && \
@@ -32,15 +32,23 @@ RUN xcaddy build \
     --with github.com/greenpau/caddy-security@v1.1.7 \
     --with github.com/hairyhenderson/caddy-teapot-module@v0.0.3-0
 
-# Build cfssl and cfssljson
-FROM golang-builder AS cfssl-builder
+# Build cfssl
+FROM debian-builder AS cfssl-builder
 
 RUN \
-  go get github.com/cloudflare/cfssl/cmd/... \
+  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.2/cfssl_1.6.2_linux_amd64 --location --output /usr/local/bin/cfssl \
   && \
-  go build -ldflags "-linkmode external -extldflags -static" -o /usr/local/bin/cfssl github.com/cloudflare/cfssl/cmd/cfssl \
+  chmod +x \
+    /usr/local/bin/cfssl
+
+# Build cfssljson
+FROM debian-builder AS cfssljson-builder
+
+RUN \
+  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.2/cfssljson_1.6.2_linux_amd64 --location --output /usr/local/bin/cfssljson \
   && \
-  go build -ldflags "-linkmode external -extldflags -static" -o /usr/local/bin/cfssljson github.com/cloudflare/cfssl/cmd/cfssljson
+  chmod +x \
+    /usr/local/bin/cfssljson
 
 # Build confd
 FROM debian-builder as confd-builder
@@ -139,7 +147,7 @@ RUN \
 # Build yacron
 FROM debian-builder as yacron-builder
 RUN \
-  curl https://github.com/gjcarneiro/yacron/releases/download/0.16.0/yacron-0.16.0-x86_64-unknown-linux-gnu --location --output /usr/local/bin/yacron \
+  curl "https://github.com/gjcarneiro/yacron/releases/download/0.16.0/yacron-0.16.0-$(uname -m)-unknown-linux-gnu" --location --output /usr/local/bin/yacron \
   && \
   chmod +x \
     /usr/local/bin/yacron
@@ -171,7 +179,7 @@ RUN \
   && \
   apt-get install -y --no-install-recommends \
     apt-utils=1.8.2.3 \
-    curl=7.64.0-4+deb10u2 \
+    curl=7.64.0-4+deb10u3 \
     dnsutils=1:9.11.5.P4+dfsg-5.1+deb10u7 \
     fio=3.12-2 \
     flac=1.3.2-3+deb10u1 \
@@ -200,7 +208,7 @@ RUN \
 
 COPY --from=caddy-builder /usr/bin/caddy /usr/local/bin/caddy
 COPY --from=cfssl-builder /usr/local/bin/cfssl /usr/local/bin/cfssl
-COPY --from=cfssl-builder /usr/local/bin/cfssljson /usr/local/bin/cfssljson
+COPY --from=cfssljson-builder /usr/local/bin/cfssljson /usr/local/bin/cfssljson
 COPY --from=confd-builder /usr/local/bin/confd /usr/local/bin/confd
 COPY --from=dumb-init-builder /usr/local/bin/dumb-init /usr/local/bin/dumb-init
 COPY --from=go-ipfs-builder /usr/local/bin/ipfs /usr/local/bin/ipfs
