@@ -1,5 +1,5 @@
 # Debian Builder image
-FROM docker.io/library/debian:buster-20220801 AS debian-builder
+FROM docker.io/library/debian:buster-20220822 AS debian-builder
 
 RUN \
   apt-get update \
@@ -171,7 +171,7 @@ RUN \
     /usr/local/bin/yt-dlp
 
 # Main image
-FROM docker.io/library/debian:buster-20220801
+FROM docker.io/library/debian:buster-20220822
 
 # Install packages
 RUN \
