@@ -97,16 +97,6 @@ RUN \
   chmod +x \
     /usr/local/bin/gosu
 
-# Build hardlinkable
-FROM golang-builder AS hardlinkable-builder
-
-RUN \
-  go get github.com/spf13/cobra \
-  && \
-  go get github.com/chadnetzer/hardlinkable \
-  && \
-  go build -ldflags "-linkmode external -extldflags -static" -o /usr/local/bin/hardlinkable github.com/chadnetzer/hardlinkable/cmd/hardlinkable
-
 # Build restic
 FROM debian-builder AS restic-builder
 
@@ -184,6 +174,7 @@ RUN \
     fio=3.12-2 \
     flac=1.3.2-3+deb10u2 \
     git=1:2.20.1-2+deb10u3 \
+    hardlink=0.3.2 \
     iperf3=3.6-2 \
     jq=1.5+dfsg-2+b1 \
     lame=3.100-2+b1 \
@@ -214,7 +205,6 @@ COPY --from=dumb-init-builder /usr/local/bin/dumb-init /usr/local/bin/dumb-init
 COPY --from=go-ipfs-builder /usr/local/bin/ipfs /usr/local/bin/ipfs
 COPY --from=goose-builder /usr/local/bin/goose /usr/local/bin/goose
 COPY --from=gosu-builder /usr/local/bin/gosu /usr/local/bin/gosu
-COPY --from=hardlinkable-builder /usr/local/bin/hardlinkable /usr/local/bin/hardlinkable
 COPY --from=restic-builder /usr/local/bin/restic /usr/local/bin/restic
 COPY --from=mktorrent-builder /usr/local/bin/mktorrent /usr/local/bin/mktorrent
 COPY --from=whatmp3-builder /usr/local/bin/whatmp3 /usr/local/bin/whatmp3
