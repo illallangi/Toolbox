@@ -182,12 +182,12 @@ RUN \
     curl=7.64.0-4+deb10u3 \
     dnsutils=1:9.11.5.P4+dfsg-5.1+deb10u7 \
     fio=3.12-2 \
-    flac=1.3.2-3+deb10u1 \
+    flac=1.3.2-3+deb10u2 \
     git=1:2.20.1-2+deb10u3 \
     iperf3=3.6-2 \
     jq=1.5+dfsg-2+b1 \
     lame=3.100-2+b1 \
-    librsvg2-bin=2.44.10-2.1 \
+    librsvg2-bin=2.44.10-2.1+deb10u3 \
     libxml2-utils=2.9.4+dfsg1-7+deb10u4 \
     mdns-scan=0.5-5 \
     moreutils=0.62-1 \
