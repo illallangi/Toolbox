@@ -174,6 +174,7 @@ RUN \
     fio=3.12-2 \
     flac=1.3.2-3+deb10u2 \
     git=1:2.20.1-2+deb10u3 \
+    hardlink=0.3.2 \
     iperf3=3.6-2 \
     jq=1.5+dfsg-2+b1 \
     lame=3.100-2+b1 \
