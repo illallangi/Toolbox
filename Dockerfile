@@ -199,5 +199,5 @@ RUN groupadd -g 1000 -r    abc && \
     useradd  -u 1000 -r -g abc abc
 
 # Configure entrypoint
-COPY root /
+COPY rootfs /
 ENTRYPOINT ["/usr/local/bin/dumb-init", "-v", "--", "entrypoint.sh"]
