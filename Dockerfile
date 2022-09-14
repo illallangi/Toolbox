@@ -13,18 +13,6 @@ RUN \
   && \
   rm -rf /var/lib/apt/lists/*
 
-# Golang Builder Image
-FROM docker.io/library/golang:1.15.8 AS golang-builder
-
-ENV CC=/usr/bin/musl-gcc
-RUN \
-  apt-get update \
-  && \
-  apt-get install -y --no-install-recommends \
-    musl-tools=1.1.21-2 \
-  && \
-  rm -rf /var/lib/apt/lists/*
-
 # Build caddy
 FROM docker.io/library/caddy:2.5.2-builder AS caddy-builder
 
@@ -79,14 +67,6 @@ RUN \
   tar --gzip --extract --verbose --directory /usr/local/src/go-ipfs --strip-components=1 --file /usr/local/src/go-ipfs.tar.gz \
   && \
   cp /usr/local/src/go-ipfs/ipfs /usr/local/bin/ipfs
-
-# Build goose
-FROM golang-builder AS goose-builder
-
-RUN \
-  go get bitbucket.org/liamstask/goose/cmd/goose \
-  && \
-  go build -ldflags "-linkmode external -extldflags -static" -o /usr/local/bin/goose bitbucket.org/liamstask/goose/cmd/goose
 
 # Build gosu
 FROM debian-builder as gosu-builder
@@ -203,7 +183,6 @@ COPY --from=cfssljson-builder /usr/local/bin/cfssljson /usr/local/bin/cfssljson
 COPY --from=confd-builder /usr/local/bin/confd /usr/local/bin/confd
 COPY --from=dumb-init-builder /usr/local/bin/dumb-init /usr/local/bin/dumb-init
 COPY --from=go-ipfs-builder /usr/local/bin/ipfs /usr/local/bin/ipfs
-COPY --from=goose-builder /usr/local/bin/goose /usr/local/bin/goose
 COPY --from=gosu-builder /usr/local/bin/gosu /usr/local/bin/gosu
 COPY --from=restic-builder /usr/local/bin/restic /usr/local/bin/restic
 COPY --from=mktorrent-builder /usr/local/bin/mktorrent /usr/local/bin/mktorrent
