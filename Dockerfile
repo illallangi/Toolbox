@@ -13,13 +13,6 @@ RUN \
   && \
   rm -rf /var/lib/apt/lists/*
 
-# Build caddy
-FROM docker.io/library/caddy:2.5.2-builder AS caddy-builder
-
-RUN xcaddy build \
-    --with github.com/greenpau/caddy-security@v1.1.7 \
-    --with github.com/hairyhenderson/caddy-teapot-module@v0.0.3-0
-
 # Build cfssl
 FROM debian-builder AS cfssl-builder
 
@@ -177,7 +170,6 @@ RUN \
   && \
   rm -rf /var/lib/apt/lists/*
 
-COPY --from=caddy-builder /usr/bin/caddy /usr/local/bin/caddy
 COPY --from=cfssl-builder /usr/local/bin/cfssl /usr/local/bin/cfssl
 COPY --from=cfssljson-builder /usr/local/bin/cfssljson /usr/local/bin/cfssljson
 COPY --from=confd-builder /usr/local/bin/confd /usr/local/bin/confd
