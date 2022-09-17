@@ -1,13 +1,11 @@
 # Debian Builder image
-FROM docker.io/library/debian:buster-20220912 AS debian-builder
+FROM ghcr.io/illallangi/debian:v0.0.2 AS debian-builder
 
 RUN \
   apt-get update \
   && \
   apt-get install -y --no-install-recommends \
     build-essential=12.6 \
-    ca-certificates=20200601~deb10u2 \
-    curl=7.64.0-4+deb10u3 \
     gcc=4:8.3.0-1 \
     make=4.2.1-1.2 \
   && \
@@ -30,15 +28,6 @@ RUN \
   && \
   chmod +x \
     /usr/local/bin/cfssljson
-
-# Build confd
-FROM debian-builder as confd-builder
-
-RUN \
-  curl https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 --location --output /usr/local/bin/confd \
-  && \
-  chmod +x \
-    /usr/local/bin/confd
 
 # Build dumb-init
 FROM debian-builder as dumb-init-builder
@@ -134,7 +123,7 @@ RUN \
     /usr/local/bin/yt-dlp
 
 # Main image
-FROM docker.io/library/debian:buster-20220912
+FROM ghcr.io/illallangi/debian:v0.0.2
 
 # Install packages
 RUN \
@@ -142,7 +131,6 @@ RUN \
   && \
   apt-get install -y --no-install-recommends \
     apt-utils=1.8.2.3 \
-    curl=7.64.0-4+deb10u3 \
     dnsutils=1:9.11.5.P4+dfsg-5.1+deb10u7 \
     fio=3.12-2 \
     flac=1.3.2-3+deb10u2 \
