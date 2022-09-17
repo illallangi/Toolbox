@@ -197,3 +197,4 @@ RUN groupadd -g 1000 -r    abc && \
 # Configure entrypoint
 COPY rootfs /
 ENTRYPOINT ["/usr/local/bin/dumb-init", "-v", "--", "entrypoint.sh"]
+CMD ["healthz"]

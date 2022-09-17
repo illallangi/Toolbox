@@ -22,9 +22,7 @@ if [ "${UID}" != "${PUID}" ]; then
 
 else
 
-  TOOLBX_COMMAND=${@:-/bin/sleep 24h}
-
-  echo $TOOLBX_COMMAND
-  $TOOLBX_COMMAND
+  echo ${@}
+  ${@}
 
 fi
