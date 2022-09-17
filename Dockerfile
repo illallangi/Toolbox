@@ -160,7 +160,6 @@ RUN \
 
 COPY --from=cfssl-builder /usr/local/bin/cfssl /usr/local/bin/cfssl
 COPY --from=cfssljson-builder /usr/local/bin/cfssljson /usr/local/bin/cfssljson
-COPY --from=confd-builder /usr/local/bin/confd /usr/local/bin/confd
 COPY --from=dumb-init-builder /usr/local/bin/dumb-init /usr/local/bin/dumb-init
 COPY --from=go-ipfs-builder /usr/local/bin/ipfs /usr/local/bin/ipfs
 COPY --from=gosu-builder /usr/local/bin/gosu /usr/local/bin/gosu
