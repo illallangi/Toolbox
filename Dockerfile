@@ -1,3 +1,6 @@
+# healthz image
+FROM ghcr.io/binkhq/healthz:2022-03-11T125439Z as healthz
+
 # Debian Builder image
 FROM docker.io/library/debian:buster-20220912 AS debian-builder
 
@@ -170,6 +173,7 @@ RUN \
   && \
   rm -rf /var/lib/apt/lists/*
 
+COPY --from=healthz /healthz /usr/local/bin/healthz
 COPY --from=cfssl-builder /usr/local/bin/cfssl /usr/local/bin/cfssl
 COPY --from=cfssljson-builder /usr/local/bin/cfssljson /usr/local/bin/cfssljson
 COPY --from=confd-builder /usr/local/bin/confd /usr/local/bin/confd
