@@ -1,3 +1,6 @@
+# healthz image
+FROM ghcr.io/binkhq/healthz:2022-03-11T125439Z as healthz
+
 # Debian Builder image
 FROM ghcr.io/illallangi/debian:v0.0.2 AS debian-builder
 
@@ -158,6 +161,7 @@ RUN \
   && \
   rm -rf /var/lib/apt/lists/*
 
+COPY --from=healthz /healthz /usr/local/bin/healthz
 COPY --from=cfssl-builder /usr/local/bin/cfssl /usr/local/bin/cfssl
 COPY --from=cfssljson-builder /usr/local/bin/cfssljson /usr/local/bin/cfssljson
 COPY --from=dumb-init-builder /usr/local/bin/dumb-init /usr/local/bin/dumb-init
@@ -180,3 +184,4 @@ RUN groupadd -g 1000 -r    abc && \
 # Configure entrypoint
 COPY rootfs /
 ENTRYPOINT ["/usr/local/bin/dumb-init", "-v", "--", "entrypoint.sh"]
+CMD ["healthz"]
