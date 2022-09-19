@@ -156,6 +156,7 @@ RUN \
     rclone=1.45-3 \
     rename=1.10-1 \
     rsync=3.1.3-6 \
+    sqlite3=3.27.2-3+deb10u2 \
     traceroute=1:2.1.0-2 \
     tree=1.8.0-1 \
   && \
