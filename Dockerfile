@@ -2,7 +2,7 @@
 FROM ghcr.io/binkhq/healthz:2022-03-11T125439Z as healthz
 
 # Debian Builder image
-FROM ghcr.io/illallangi/debian:v0.0.3 AS debian-builder
+FROM ghcr.io/illallangi/debian:v0.0.4 AS debian-builder
 
 RUN \
   apt-get update \
@@ -126,7 +126,7 @@ RUN \
     /usr/local/bin/yt-dlp
 
 # Main image
-FROM ghcr.io/illallangi/debian:v0.0.3
+FROM ghcr.io/illallangi/debian:v0.0.4
 
 # Install packages
 RUN \
@@ -156,6 +156,7 @@ RUN \
     rclone=1.45-3 \
     rename=1.10-1 \
     rsync=3.1.3-6 \
+    sqlite3=3.27.2-3+deb10u2 \
     traceroute=1:2.1.0-2 \
     tree=1.8.0-1 \
   && \
