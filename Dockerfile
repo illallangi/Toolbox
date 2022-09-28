@@ -2,7 +2,7 @@
 FROM ghcr.io/binkhq/healthz:2022-03-11T125439Z as healthz
 
 # Debian Builder image
-FROM ghcr.io/illallangi/debian:v0.0.4 AS debian-builder
+FROM ghcr.io/illallangi/debian:v0.0.5 AS debian-builder
 
 RUN \
   apt-get update \
@@ -126,7 +126,7 @@ RUN \
     /usr/local/bin/yt-dlp
 
 # Main image
-FROM ghcr.io/illallangi/debian:v0.0.4
+FROM ghcr.io/illallangi/debian:v0.0.5
 
 # Install packages
 RUN \
