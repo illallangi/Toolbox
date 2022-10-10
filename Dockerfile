@@ -134,7 +134,7 @@ RUN \
   && \
   apt-get install -y --no-install-recommends \
     apt-utils=1.8.2.3 \
-    dnsutils=1:9.11.5.P4+dfsg-5.1+deb10u7 \
+    dnsutils=1:9.11.5.P4+dfsg-5.1+deb10u8 \
     fio=3.12-2 \
     flac=1.3.2-3+deb10u2 \
     git=1:2.20.1-2+deb10u3 \
