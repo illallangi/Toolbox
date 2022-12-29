@@ -41,18 +41,6 @@ RUN \
   chmod +x \
     /usr/local/bin/dumb-init
 
-# Build go-ipfs
-FROM debian-builder as go-ipfs-builder
-
-RUN \
-  mkdir -p /usr/local/src/go-ipfs \
-  && \
-  curl https://dist.ipfs.io/go-ipfs/v0.10.0/go-ipfs_v0.10.0_linux-amd64.tar.gz --location --output /usr/local/src/go-ipfs.tar.gz \
-  && \
-  tar --gzip --extract --verbose --directory /usr/local/src/go-ipfs --strip-components=1 --file /usr/local/src/go-ipfs.tar.gz \
-  && \
-  cp /usr/local/src/go-ipfs/ipfs /usr/local/bin/ipfs
-
 # Build gosu
 FROM debian-builder as gosu-builder
 
@@ -166,7 +154,6 @@ COPY --from=healthz /healthz /usr/local/bin/healthz
 COPY --from=cfssl-builder /usr/local/bin/cfssl /usr/local/bin/cfssl
 COPY --from=cfssljson-builder /usr/local/bin/cfssljson /usr/local/bin/cfssljson
 COPY --from=dumb-init-builder /usr/local/bin/dumb-init /usr/local/bin/dumb-init
-COPY --from=go-ipfs-builder /usr/local/bin/ipfs /usr/local/bin/ipfs
 COPY --from=gosu-builder /usr/local/bin/gosu /usr/local/bin/gosu
 COPY --from=restic-builder /usr/local/bin/restic /usr/local/bin/restic
 COPY --from=mktorrent-builder /usr/local/bin/mktorrent /usr/local/bin/mktorrent
