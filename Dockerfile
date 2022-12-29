@@ -66,7 +66,7 @@ RUN \
 FROM debian-builder AS restic-builder
 
 RUN \
-  curl https://github.com/restic/restic/releases/download/v0.13.1/restic_0.13.1_linux_amd64.bz2 --location --output /usr/local/src/restic.bz2 \
+  curl https://github.com/restic/restic/releases/download/v0.14.0/restic_0.14.0_linux_amd64.bz2 --location --output /usr/local/src/restic.bz2 \
   && \
   bzip2 --decompress --keep /usr/local/src/restic.bz2 \
   && \
