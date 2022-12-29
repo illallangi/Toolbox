@@ -18,7 +18,7 @@ RUN \
 FROM debian-builder AS cfssl-builder
 
 RUN \
-  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.2/cfssl_1.6.2_linux_amd64 --location --output /usr/local/bin/cfssl \
+  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.3/cfssl_1.6.3_linux_amd64 --location --output /usr/local/bin/cfssl \
   && \
   chmod +x \
     /usr/local/bin/cfssl
@@ -27,7 +27,7 @@ RUN \
 FROM debian-builder AS cfssljson-builder
 
 RUN \
-  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.2/cfssljson_1.6.2_linux_amd64 --location --output /usr/local/bin/cfssljson \
+  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.3/cfssljson_1.6.3_linux_amd64 --location --output /usr/local/bin/cfssljson \
   && \
   chmod +x \
     /usr/local/bin/cfssljson
