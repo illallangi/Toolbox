@@ -41,18 +41,6 @@ RUN \
   chmod +x \
     /usr/local/bin/dumb-init
 
-# Build go-ipfs
-FROM debian-builder as go-ipfs-builder
-
-RUN \
-  mkdir -p /usr/local/src/go-ipfs \
-  && \
-  curl https://dist.ipfs.io/go-ipfs/v0.10.0/go-ipfs_v0.10.0_linux-amd64.tar.gz --location --output /usr/local/src/go-ipfs.tar.gz \
-  && \
-  tar --gzip --extract --verbose --directory /usr/local/src/go-ipfs --strip-components=1 --file /usr/local/src/go-ipfs.tar.gz \
-  && \
-  cp /usr/local/src/go-ipfs/ipfs /usr/local/bin/ipfs
-
 # Build gosu
 FROM debian-builder as gosu-builder
 
