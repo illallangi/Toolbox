@@ -2,7 +2,7 @@
 FROM ghcr.io/binkhq/healthz:2022-03-11T125439Z as healthz
 
 # Debian Builder image
-FROM ghcr.io/illallangi/debian:v0.0.8 AS debian-builder
+FROM ghcr.io/illallangi/debian:v0.0.10 AS debian-builder
 
 RUN \
   apt-get update \
@@ -18,7 +18,7 @@ RUN \
 FROM debian-builder AS cfssl-builder
 
 RUN \
-  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.2/cfssl_1.6.2_linux_amd64 --location --output /usr/local/bin/cfssl \
+  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.3/cfssl_1.6.3_linux_amd64 --location --output /usr/local/bin/cfssl \
   && \
   chmod +x \
     /usr/local/bin/cfssl
@@ -27,7 +27,7 @@ RUN \
 FROM debian-builder AS cfssljson-builder
 
 RUN \
-  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.2/cfssljson_1.6.2_linux_amd64 --location --output /usr/local/bin/cfssljson \
+  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.3/cfssljson_1.6.3_linux_amd64 --location --output /usr/local/bin/cfssljson \
   && \
   chmod +x \
     /usr/local/bin/cfssljson
@@ -40,18 +40,6 @@ RUN \
   && \
   chmod +x \
     /usr/local/bin/dumb-init
-
-# Build go-ipfs
-FROM debian-builder as go-ipfs-builder
-
-RUN \
-  mkdir -p /usr/local/src/go-ipfs \
-  && \
-  curl https://dist.ipfs.io/go-ipfs/v0.10.0/go-ipfs_v0.10.0_linux-amd64.tar.gz --location --output /usr/local/src/go-ipfs.tar.gz \
-  && \
-  tar --gzip --extract --verbose --directory /usr/local/src/go-ipfs --strip-components=1 --file /usr/local/src/go-ipfs.tar.gz \
-  && \
-  cp /usr/local/src/go-ipfs/ipfs /usr/local/bin/ipfs
 
 # Build gosu
 FROM debian-builder as gosu-builder
@@ -66,7 +54,7 @@ RUN \
 FROM debian-builder AS restic-builder
 
 RUN \
-  curl https://github.com/restic/restic/releases/download/v0.13.1/restic_0.13.1_linux_amd64.bz2 --location --output /usr/local/src/restic.bz2 \
+  curl https://github.com/restic/restic/releases/download/v0.14.0/restic_0.14.0_linux_amd64.bz2 --location --output /usr/local/src/restic.bz2 \
   && \
   bzip2 --decompress --keep /usr/local/src/restic.bz2 \
   && \
@@ -126,7 +114,7 @@ RUN \
     /usr/local/bin/yt-dlp
 
 # Main image
-FROM ghcr.io/illallangi/debian:v0.0.8
+FROM ghcr.io/illallangi/debian:v0.0.10
 
 # Install packages
 RUN \
@@ -166,7 +154,6 @@ COPY --from=healthz /healthz /usr/local/bin/healthz
 COPY --from=cfssl-builder /usr/local/bin/cfssl /usr/local/bin/cfssl
 COPY --from=cfssljson-builder /usr/local/bin/cfssljson /usr/local/bin/cfssljson
 COPY --from=dumb-init-builder /usr/local/bin/dumb-init /usr/local/bin/dumb-init
-COPY --from=go-ipfs-builder /usr/local/bin/ipfs /usr/local/bin/ipfs
 COPY --from=gosu-builder /usr/local/bin/gosu /usr/local/bin/gosu
 COPY --from=restic-builder /usr/local/bin/restic /usr/local/bin/restic
 COPY --from=mktorrent-builder /usr/local/bin/mktorrent /usr/local/bin/mktorrent
