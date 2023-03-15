@@ -147,6 +147,7 @@ RUN \
     sqlite3=3.27.2-3+deb10u2 \
     traceroute=1:2.1.0-2 \
     tree=1.8.0-1 \
+    usbutils=1:010-3 \
   && \
   rm -rf /var/lib/apt/lists/*
 
