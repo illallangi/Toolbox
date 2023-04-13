@@ -2,7 +2,7 @@
 FROM ghcr.io/binkhq/healthz:2022-03-11T125439Z as healthz
 
 # Debian Builder image
-FROM ghcr.io/illallangi/debian:v0.0.10 AS debian-builder
+FROM ghcr.io/illallangi/debian:v0.0.11 AS debian-builder
 
 RUN \
   apt-get update \
@@ -114,7 +114,7 @@ RUN \
     /usr/local/bin/yt-dlp
 
 # Main image
-FROM ghcr.io/illallangi/debian:v0.0.10
+FROM ghcr.io/illallangi/debian:v0.0.11
 
 # Install packages
 RUN \
@@ -147,6 +147,7 @@ RUN \
     sqlite3=3.27.2-3+deb10u2 \
     traceroute=1:2.1.0-2 \
     tree=1.8.0-1 \
+    usbutils=1:010-3 \
   && \
   rm -rf /var/lib/apt/lists/*
 
