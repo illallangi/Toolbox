@@ -7,6 +7,11 @@ FROM ghcr.io/illallangi/debian:v0.0.11 AS debian-builder
 RUN \
   apt-get update \
   && \
+  mkdir -p \
+    /var/lib/dpkg/updates/ \
+    /etc/apt/preferences.d/ \
+    /usr/local/src/ \
+  && \
   apt-get install -y --no-install-recommends \
     build-essential=12.6 \
     gcc=4:8.3.0-1 \
@@ -120,28 +125,33 @@ FROM ghcr.io/illallangi/debian:v0.0.11
 RUN \
   apt-get update \
   && \
+  mkdir -p \
+    /var/lib/dpkg/updates/ \
+    /etc/apt/preferences.d/ \
+    /usr/local/src/ \
+  && \
   apt-get install -y --no-install-recommends \
     apt-utils=1.8.2.3 \
-    dnsutils=1:9.11.5.P4+dfsg-5.1+deb10u8 \
+    dnsutils=1:9.11.5.P4+dfsg-5.1+deb10u9 \
     fio=3.12-2 \
-    flac=1.3.2-3+deb10u2 \
-    git=1:2.20.1-2+deb10u3 \
+    flac=1.3.2-3+deb10u3 \
+    git=1:2.20.1-2+deb10u8 \
     hardlink=0.3.2 \
-    iperf3=3.6-2 \
+    iperf3=3.6-2+deb10u1 \
     jq=1.5+dfsg-2+b1 \
     lame=3.100-2+b1 \
     librsvg2-bin=2.44.10-2.1+deb10u3 \
-    libxml2-utils=2.9.4+dfsg1-7+deb10u4 \
+    libxml2-utils=2.9.4+dfsg1-7+deb10u6 \
     mdns-scan=0.5-5 \
     moreutils=0.62-1 \
     mtr=0.92-2 \
     nano=3.2-3 \
     netcat=1.10-41.1 \
-    openssh-client=1:7.9p1-10+deb10u2 \
+    openssh-client=1:7.9p1-10+deb10u3 \
     procps=2:3.3.15-2 \
     python3-pip=18.1-5 \
     python3-setuptools=40.8.0-1 \
-    rclone=1.45-3 \
+    rclone=1.45-3+deb10u1 \
     rename=1.10-1 \
     rsync=3.1.3-6 \
     sqlite3=3.27.2-3+deb10u2 \
