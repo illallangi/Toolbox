@@ -7,6 +7,11 @@ FROM ghcr.io/illallangi/debian:v0.0.11 AS debian-builder
 RUN \
   apt-get update \
   && \
+  mkdir -p \
+    /var/lib/dpkg/updates/ \
+    /etc/apt/preferences.d/ \
+    /usr/local/src/ \
+  && \
   apt-get install -y --no-install-recommends \
     build-essential=12.6 \
     gcc=4:8.3.0-1 \
