@@ -118,45 +118,48 @@ RUN \
     /usr/local/bin/yt-dlp
 
 # Main image
-FROM ghcr.io/illallangi/debian:v0.0.11
+FROM docker.io/library/debian:bookworm-20231218
 
 # Install packages
-RUN \
+RUN DEBIAN_FRONTEND=noninteractive \
   apt-get update \
   && \
-  mkdir -p \
-    /var/lib/dpkg/updates/ \
-    /etc/apt/preferences.d/ \
-    /usr/local/src/ \
-  && \
   apt-get install -y --no-install-recommends \
-    apt-utils=1.8.2.3 \
-    dnsutils=1:9.11.5.P4+dfsg-5.1+deb10u9 \
-    fio=3.12-2 \
-    flac=1.3.2-3+deb10u3 \
-    git=1:2.20.1-2+deb10u8 \
-    hardlink=0.3.2 \
-    iperf3=3.6-2+deb10u1 \
-    jq=1.5+dfsg-2+b1 \
-    lame=3.100-2+b1 \
-    librsvg2-bin=2.44.10-2.1+deb10u3 \
-    libxml2-utils=2.9.4+dfsg1-7+deb10u6 \
-    mdns-scan=0.5-5 \
-    moreutils=0.62-1 \
-    mtr=0.92-2 \
-    nano=3.2-3 \
-    netcat=1.10-41.1 \
-    openssh-client=1:7.9p1-10+deb10u3 \
-    procps=2:3.3.15-2 \
-    python3-pip=18.1-5 \
-    python3-setuptools=40.8.0-1 \
-    rclone=1.45-3+deb10u1 \
-    rename=1.10-1 \
-    rsync=3.1.3-6 \
-    sqlite3=3.27.2-3+deb10u2 \
-    traceroute=1:2.1.0-2 \
-    tree=1.8.0-1 \
-    usbutils=1:010-3 \
+    apt-utils=2.6.1 \
+    ca-certificates=20230311 \
+    curl=7.88.1-10+deb12u5 \
+    dnsutils=1:9.18.19-1~deb12u1 \
+    fio=3.33-3 \
+    flac=1.4.2+ds-2 \
+    git=1:2.39.2-1.1 \
+    gnupg=2.2.40-1.1 \
+    gnupg1=1.4.23-1.1+b1 \
+    gnupg2=2.2.40-1.1 \
+    iperf3=3.12-1+deb12u1 \
+    jq=1.6-2.1 \
+    lame=3.100-6 \
+    librsvg2-bin=2.54.7+dfsg-1~deb12u1 \
+    libxml2-utils=2.9.14+dfsg-1.3~deb12u1 \
+    mdns-scan=0.5-5+b1 \
+    moreutils=0.67-1 \
+    mtr=0.95-1 \
+    musl=1.2.3-1 \
+    nano=7.2-1 \
+    netcat-traditional=1.10-47 \
+    openssh-client=1:9.2p1-2+deb12u2 \
+    procps=2:4.0.2-3 \
+    python3-pip=23.0.1+dfsg-1 \
+    python3-setuptools=66.1.1-1 \
+    rclone=1.60.1+dfsg-2+b5 \
+    rename=2.01-1 \
+    rsync=3.2.7-1 \
+    sqlite3=3.40.1-2 \
+    traceroute=1:2.1.2-1 \
+    tree=2.1.0-1 \
+    usbutils=1:014-1 \
+    xz-utils=5.4.1-0.2 \
+  && \
+  apt-get clean \
   && \
   rm -rf /var/lib/apt/lists/*
 
