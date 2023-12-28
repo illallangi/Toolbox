@@ -1,8 +1,9 @@
 # healthz image
 FROM ghcr.io/binkhq/healthz:2022-03-11T125439Z as healthz
 
-# Debian Builder image
-FROM docker.io/library/debian:bookworm-20231218 AS debian-builder
+# Debian builder image
+FROM docker.io/library/debian:bookworm-20231218 AS builder
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install packages
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -18,7 +19,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
   rm -rf /var/lib/apt/lists/*
 
 # Build cfssl
-FROM debian-builder AS cfssl-builder
+FROM builder AS cfssl-builder
 
 RUN \
   curl https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl_1.6.4_linux_amd64 --location --output /usr/local/bin/cfssl \
@@ -27,7 +28,7 @@ RUN \
     /usr/local/bin/cfssl
 
 # Build cfssljson
-FROM debian-builder AS cfssljson-builder
+FROM builder AS cfssljson-builder
 
 RUN \
   curl https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssljson_1.6.4_linux_amd64 --location --output /usr/local/bin/cfssljson \
@@ -36,7 +37,7 @@ RUN \
     /usr/local/bin/cfssljson
 
 # Build dumb-init
-FROM debian-builder as dumb-init-builder
+FROM builder as dumb-init-builder
 
 RUN \
   curl "https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_$(uname -m)" --location --output /usr/local/bin/dumb-init \
@@ -45,7 +46,7 @@ RUN \
     /usr/local/bin/dumb-init
 
 # Build gosu
-FROM debian-builder as gosu-builder
+FROM builder as gosu-builder
 
 RUN \
   curl https://github.com/tianon/gosu/releases/download/1.17/gosu-amd64 --location --output /usr/local/bin/gosu \
@@ -54,7 +55,7 @@ RUN \
     /usr/local/bin/gosu
 
 # Build restic
-FROM debian-builder AS restic-builder
+FROM builder AS restic-builder
 
 RUN \
   curl https://github.com/restic/restic/releases/download/v0.16.2/restic_0.16.2_linux_amd64.bz2 --location --output /usr/local/src/restic.bz2 \
@@ -67,7 +68,7 @@ RUN \
     /usr/local/bin/restic
 
 # Build mktorrent
-FROM debian-builder AS mktorrent-builder
+FROM builder AS mktorrent-builder
 
 RUN \
   mkdir -p /usr/local/src/mktorrent \
@@ -79,7 +80,7 @@ RUN \
   make install --directory /usr/local/src/mktorrent
 
 # Build whatmp3
-FROM debian-builder as whatmp3-builder
+FROM builder as whatmp3-builder
 
 RUN \
   mkdir -p /usr/local/src/whatmp3 \
@@ -91,7 +92,7 @@ RUN \
   cp /usr/local/src/whatmp3/whatmp3.py /usr/local/bin/whatmp3
 
 # Build yacron
-FROM debian-builder as yacron-builder
+FROM builder as yacron-builder
 
 RUN \
   curl "https://github.com/gjcarneiro/yacron/releases/download/0.19.0/yacron-0.19.0-$(uname -m)-unknown-linux-gnu" --location --output /usr/local/bin/yacron \
@@ -100,7 +101,7 @@ RUN \
     /usr/local/bin/yacron
 
 # Build yq
-FROM debian-builder as yq-builder
+FROM builder as yq-builder
 
 RUN \
   curl https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 --location --output /usr/local/bin/yq \
@@ -109,7 +110,7 @@ RUN \
     /usr/local/bin/yq
 
 # Build yt-dlp
-FROM debian-builder as yt-dlp-builder
+FROM builder as yt-dlp-builder
 
 RUN \
   curl https://github.com/yt-dlp/yt-dlp/releases/download/2023.11.16/yt-dlp_linux --location --output /usr/local/bin/yt-dlp \
@@ -119,6 +120,7 @@ RUN \
 
 # Main image
 FROM docker.io/library/debian:bookworm-20231218
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 #FIXME: mdns-scan not available in arm64 so removed from apt-get install
 # Install packages
