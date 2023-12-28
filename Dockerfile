@@ -3,6 +3,7 @@ FROM ghcr.io/binkhq/healthz:2022-03-11T125439Z as healthz
 
 # Debian Builder image
 FROM docker.io/library/debian:bookworm-20231218 AS debian-builder
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install packages
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -119,6 +120,7 @@ RUN \
 
 # Main image
 FROM docker.io/library/debian:bookworm-20231218
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 #FIXME: mdns-scan not available in arm64 so removed from apt-get install
 # Install packages
