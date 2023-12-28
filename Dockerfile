@@ -164,6 +164,20 @@ RUN DEBIAN_FRONTEND=noninteractive \
   && \
   rm -rf /var/lib/apt/lists/*
 
+# Install confd
+RUN \
+  if [ "$(uname -m)" = "x86_64" ]; then \
+    curl https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 --location --output /usr/local/bin/confd \
+  ; fi \
+  && \
+  if [ "$(uname -m)" = "aarch64" ]; then \
+    curl https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-arm64 --location --output /usr/local/bin/confd \
+  ; fi \
+  && \
+  chmod +x \
+    /usr/local/bin/confd
+
+# Copy from build images
 COPY --from=healthz /healthz /usr/local/bin/healthz
 COPY --from=cfssl-builder /usr/local/bin/cfssl /usr/local/bin/cfssl
 COPY --from=cfssljson-builder /usr/local/bin/cfssljson /usr/local/bin/cfssljson
