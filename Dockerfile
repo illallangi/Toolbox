@@ -50,7 +50,7 @@ RUN \
 FROM debian-builder as gosu-builder
 
 RUN \
-  curl https://github.com/tianon/gosu/releases/download/1.14/gosu-amd64 --location --output /usr/local/bin/gosu \
+  curl https://github.com/tianon/gosu/releases/download/1.17/gosu-amd64 --location --output /usr/local/bin/gosu \
   && \
   chmod +x \
     /usr/local/bin/gosu
