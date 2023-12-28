@@ -2,20 +2,18 @@
 FROM ghcr.io/binkhq/healthz:2022-03-11T125439Z as healthz
 
 # Debian Builder image
-FROM ghcr.io/illallangi/debian:v0.0.11 AS debian-builder
+FROM docker.io/library/debian:bookworm-20231218 AS debian-builder
 
-RUN \
+# Install packages
+RUN DEBIAN_FRONTEND=noninteractive \
   apt-get update \
   && \
-  mkdir -p \
-    /var/lib/dpkg/updates/ \
-    /etc/apt/preferences.d/ \
-    /usr/local/src/ \
-  && \
   apt-get install -y --no-install-recommends \
-    build-essential=12.6 \
-    gcc=4:8.3.0-1 \
-    make=4.2.1-1.2 \
+    build-essential=12.9 \
+    ca-certificates=20230311 \
+    curl=7.88.1-10+deb12u5 \
+  && \
+  apt-get clean \
   && \
   rm -rf /var/lib/apt/lists/*
 
@@ -23,7 +21,7 @@ RUN \
 FROM debian-builder AS cfssl-builder
 
 RUN \
-  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.3/cfssl_1.6.3_linux_amd64 --location --output /usr/local/bin/cfssl \
+  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl_1.6.4_linux_amd64 --location --output /usr/local/bin/cfssl \
   && \
   chmod +x \
     /usr/local/bin/cfssl
@@ -32,7 +30,7 @@ RUN \
 FROM debian-builder AS cfssljson-builder
 
 RUN \
-  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.3/cfssljson_1.6.3_linux_amd64 --location --output /usr/local/bin/cfssljson \
+  curl https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssljson_1.6.4_linux_amd64 --location --output /usr/local/bin/cfssljson \
   && \
   chmod +x \
     /usr/local/bin/cfssljson
@@ -50,7 +48,7 @@ RUN \
 FROM debian-builder as gosu-builder
 
 RUN \
-  curl https://github.com/tianon/gosu/releases/download/1.14/gosu-amd64 --location --output /usr/local/bin/gosu \
+  curl https://github.com/tianon/gosu/releases/download/1.17/gosu-amd64 --location --output /usr/local/bin/gosu \
   && \
   chmod +x \
     /usr/local/bin/gosu
@@ -59,7 +57,7 @@ RUN \
 FROM debian-builder AS restic-builder
 
 RUN \
-  curl https://github.com/restic/restic/releases/download/v0.14.0/restic_0.14.0_linux_amd64.bz2 --location --output /usr/local/src/restic.bz2 \
+  curl https://github.com/restic/restic/releases/download/v0.16.2/restic_0.16.2_linux_amd64.bz2 --location --output /usr/local/src/restic.bz2 \
   && \
   bzip2 --decompress --keep /usr/local/src/restic.bz2 \
   && \
@@ -94,8 +92,9 @@ RUN \
 
 # Build yacron
 FROM debian-builder as yacron-builder
+
 RUN \
-  curl "https://github.com/gjcarneiro/yacron/releases/download/0.16.0/yacron-0.16.0-$(uname -m)-unknown-linux-gnu" --location --output /usr/local/bin/yacron \
+  curl "https://github.com/gjcarneiro/yacron/releases/download/0.19.0/yacron-0.19.0-$(uname -m)-unknown-linux-gnu" --location --output /usr/local/bin/yacron \
   && \
   chmod +x \
     /usr/local/bin/yacron
@@ -104,7 +103,7 @@ RUN \
 FROM debian-builder as yq-builder
 
 RUN \
-  curl https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64 --location --output /usr/local/bin/yq \
+  curl https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 --location --output /usr/local/bin/yq \
   && \
   chmod +x \
     /usr/local/bin/yq
@@ -113,54 +112,72 @@ RUN \
 FROM debian-builder as yt-dlp-builder
 
 RUN \
-  curl https://github.com/yt-dlp/yt-dlp/releases/download/2022.07.18/yt-dlp_linux --location --output /usr/local/bin/yt-dlp \
+  curl https://github.com/yt-dlp/yt-dlp/releases/download/2023.11.16/yt-dlp_linux --location --output /usr/local/bin/yt-dlp \
   && \
   chmod +x \
     /usr/local/bin/yt-dlp
 
 # Main image
-FROM ghcr.io/illallangi/debian:v0.0.11
+FROM docker.io/library/debian:bookworm-20231218
 
+#FIXME: mdns-scan not available in arm64 so removed from apt-get install
 # Install packages
-RUN \
+RUN DEBIAN_FRONTEND=noninteractive \
   apt-get update \
   && \
-  mkdir -p \
-    /var/lib/dpkg/updates/ \
-    /etc/apt/preferences.d/ \
-    /usr/local/src/ \
-  && \
   apt-get install -y --no-install-recommends \
-    apt-utils=1.8.2.3 \
-    dnsutils=1:9.11.5.P4+dfsg-5.1+deb10u9 \
-    fio=3.12-2 \
-    flac=1.3.2-3+deb10u3 \
-    git=1:2.20.1-2+deb10u8 \
-    hardlink=0.3.2 \
-    iperf3=3.6-2+deb10u1 \
-    jq=1.5+dfsg-2+b1 \
-    lame=3.100-2+b1 \
-    librsvg2-bin=2.44.10-2.1+deb10u3 \
-    libxml2-utils=2.9.4+dfsg1-7+deb10u6 \
-    mdns-scan=0.5-5 \
-    moreutils=0.62-1 \
-    mtr=0.92-2 \
-    nano=3.2-3 \
-    netcat=1.10-41.1 \
-    openssh-client=1:7.9p1-10+deb10u3 \
-    procps=2:3.3.15-2 \
-    python3-pip=18.1-5 \
-    python3-setuptools=40.8.0-1 \
-    rclone=1.45-3+deb10u1 \
-    rename=1.10-1 \
-    rsync=3.1.3-6 \
-    sqlite3=3.27.2-3+deb10u2 \
-    traceroute=1:2.1.0-2 \
-    tree=1.8.0-1 \
-    usbutils=1:010-3 \
+    apt-utils=2.6.1 \
+    ca-certificates=20230311 \
+    curl=7.88.1-10+deb12u5 \
+    dnsutils=1:9.18.19-1~deb12u1 \
+    fio=3.33-3 \
+    flac=1.4.2+ds-2 \
+    git=1:2.39.2-1.1 \
+    gnupg=2.2.40-1.1 \
+    gnupg1=1.4.23-1.1+b1 \
+    gnupg2=2.2.40-1.1 \
+    iperf3=3.12-1+deb12u1 \
+    jq=1.6-2.1 \
+    lame=3.100-6 \
+    librsvg2-bin=2.54.7+dfsg-1~deb12u1 \
+    libxml2-utils=2.9.14+dfsg-1.3~deb12u1 \
+    # mdns-scan=0.5-5+b1 \
+    moreutils=0.67-1 \
+    mtr=0.95-1 \
+    musl=1.2.3-1 \
+    nano=7.2-1 \
+    netcat-traditional=1.10-47 \
+    openssh-client=1:9.2p1-2+deb12u2 \
+    procps=2:4.0.2-3 \
+    python3-pip=23.0.1+dfsg-1 \
+    python3-setuptools=66.1.1-1 \
+    rclone=1.60.1+dfsg-2+b5 \
+    rename=2.01-1 \
+    rsync=3.2.7-1 \
+    sqlite3=3.40.1-2 \
+    traceroute=1:2.1.2-1 \
+    tree=2.1.0-1 \
+    usbutils=1:014-1 \
+    xz-utils=5.4.1-0.2 \
+  && \
+  apt-get clean \
   && \
   rm -rf /var/lib/apt/lists/*
 
+# Install confd
+RUN \
+  if [ "$(uname -m)" = "x86_64" ]; then \
+    curl https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-amd64 --location --output /usr/local/bin/confd \
+  ; fi \
+  && \
+  if [ "$(uname -m)" = "aarch64" ]; then \
+    curl https://github.com/kelseyhightower/confd/releases/download/v0.16.0/confd-0.16.0-linux-arm64 --location --output /usr/local/bin/confd \
+  ; fi \
+  && \
+  chmod +x \
+    /usr/local/bin/confd
+
+# Copy from build images
 COPY --from=healthz /healthz /usr/local/bin/healthz
 COPY --from=cfssl-builder /usr/local/bin/cfssl /usr/local/bin/cfssl
 COPY --from=cfssljson-builder /usr/local/bin/cfssljson /usr/local/bin/cfssljson
