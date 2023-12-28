@@ -120,6 +120,7 @@ RUN \
 # Main image
 FROM docker.io/library/debian:bookworm-20231218
 
+#FIXME: mdns-scan not available in arm64 so removed from apt-get install
 # Install packages
 RUN DEBIAN_FRONTEND=noninteractive \
   apt-get update \
@@ -140,7 +141,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     lame=3.100-6 \
     librsvg2-bin=2.54.7+dfsg-1~deb12u1 \
     libxml2-utils=2.9.14+dfsg-1.3~deb12u1 \
-    mdns-scan=0.5-5+b1 \
+    # mdns-scan=0.5-5+b1 \
     moreutils=0.67-1 \
     mtr=0.95-1 \
     musl=1.2.3-1 \
