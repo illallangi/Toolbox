@@ -2,20 +2,18 @@
 FROM ghcr.io/binkhq/healthz:2022-03-11T125439Z as healthz
 
 # Debian Builder image
-FROM ghcr.io/illallangi/debian:v0.0.11 AS debian-builder
+FROM docker.io/library/debian:bookworm-20231218 AS debian-builder
 
-RUN \
+# Install packages
+RUN DEBIAN_FRONTEND=noninteractive \
   apt-get update \
   && \
-  mkdir -p \
-    /var/lib/dpkg/updates/ \
-    /etc/apt/preferences.d/ \
-    /usr/local/src/ \
-  && \
   apt-get install -y --no-install-recommends \
-    build-essential=12.6 \
-    gcc=4:8.3.0-1 \
-    make=4.2.1-1.2 \
+    build-essential=12.9 \
+    ca-certificates=20230311 \
+    curl=7.88.1-10+deb12u5 \
+  && \
+  apt-get clean \
   && \
   rm -rf /var/lib/apt/lists/*
 
