@@ -114,7 +114,7 @@ RUN \
 FROM debian-builder as yt-dlp-builder
 
 RUN \
-  curl https://github.com/yt-dlp/yt-dlp/releases/download/2022.07.18/yt-dlp_linux --location --output /usr/local/bin/yt-dlp \
+  curl https://github.com/yt-dlp/yt-dlp/releases/download/2023.11.16/yt-dlp_linux --location --output /usr/local/bin/yt-dlp \
   && \
   chmod +x \
     /usr/local/bin/yt-dlp
