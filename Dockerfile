@@ -105,7 +105,7 @@ RUN \
 FROM debian-builder as yq-builder
 
 RUN \
-  curl https://github.com/mikefarah/yq/releases/download/3.4.0/yq_linux_amd64 --location --output /usr/local/bin/yq \
+  curl https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 --location --output /usr/local/bin/yq \
   && \
   chmod +x \
     /usr/local/bin/yq
