@@ -94,8 +94,9 @@ RUN \
 
 # Build yacron
 FROM debian-builder as yacron-builder
+
 RUN \
-  curl "https://github.com/gjcarneiro/yacron/releases/download/0.16.0/yacron-0.16.0-$(uname -m)-unknown-linux-gnu" --location --output /usr/local/bin/yacron \
+  curl "https://github.com/gjcarneiro/yacron/releases/download/0.19.0/yacron-0.19.0-$(uname -m)-unknown-linux-gnu" --location --output /usr/local/bin/yacron \
   && \
   chmod +x \
     /usr/local/bin/yacron
