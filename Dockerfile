@@ -159,7 +159,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     sqlite3=3.40.1-2 \
     traceroute=1:2.1.2-1 \
     tree=2.1.0-1 \
-    usbutils=1:014-1 \
+    usbutils=1:014-1+deb12u1 \
     xz-utils=5.4.1-0.2 \
   && \
   apt-get clean \
