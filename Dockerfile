@@ -2,7 +2,7 @@
 FROM ghcr.io/binkhq/healthz:2022-03-11T125439Z as healthz
 
 # Debian builder image
-FROM docker.io/library/debian:bookworm-20231218 AS builder
+FROM docker.io/library/debian:bookworm-20240211 AS builder
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install packages
@@ -58,7 +58,7 @@ RUN \
 FROM builder AS restic-builder
 
 RUN \
-  curl https://github.com/restic/restic/releases/download/v0.16.2/restic_0.16.2_linux_amd64.bz2 --location --output /usr/local/src/restic.bz2 \
+  curl https://github.com/restic/restic/releases/download/v0.16.4/restic_0.16.4_linux_amd64.bz2 --location --output /usr/local/src/restic.bz2 \
   && \
   bzip2 --decompress --keep /usr/local/src/restic.bz2 \
   && \
@@ -119,7 +119,7 @@ RUN \
     /usr/local/bin/yt-dlp
 
 # Main image
-FROM docker.io/library/debian:bookworm-20231218
+FROM docker.io/library/debian:bookworm-20240211
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 #FIXME: mdns-scan not available in arm64 so removed from apt-get install
@@ -159,7 +159,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     sqlite3=3.40.1-2 \
     traceroute=1:2.1.2-1 \
     tree=2.1.0-1 \
-    usbutils=1:014-1 \
+    usbutils=1:014-1+deb12u1 \
     xz-utils=5.4.1-0.2 \
   && \
   apt-get clean \
