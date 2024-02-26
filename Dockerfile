@@ -58,7 +58,7 @@ RUN \
 FROM builder AS restic-builder
 
 RUN \
-  curl https://github.com/restic/restic/releases/download/v0.16.2/restic_0.16.2_linux_amd64.bz2 --location --output /usr/local/src/restic.bz2 \
+  curl https://github.com/restic/restic/releases/download/v0.16.4/restic_0.16.4_linux_amd64.bz2 --location --output /usr/local/src/restic.bz2 \
   && \
   bzip2 --decompress --keep /usr/local/src/restic.bz2 \
   && \
