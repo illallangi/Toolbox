@@ -143,6 +143,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     lame=3.100-6 \
     librsvg2-bin=2.54.7+dfsg-1~deb12u1 \
     libxml2-utils=2.9.14+dfsg-1.3~deb12u1 \
+    make=4.3-4.1 \
     # mdns-scan=0.5-5+b1 \
     moreutils=0.67-1 \
     mtr=0.95-1 \
@@ -159,6 +160,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     sqlite3=3.40.1-2 \
     traceroute=1:2.1.2-1 \
     tree=2.1.0-1 \
+    unzip=6.0-28 \
     usbutils=1:014-1+deb12u1 \
     xz-utils=5.4.1-0.2 \
   && \
