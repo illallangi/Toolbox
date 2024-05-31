@@ -2,7 +2,7 @@
 FROM ghcr.io/binkhq/healthz:2022-03-11T125439Z as healthz
 
 # Debian builder image
-FROM docker.io/library/debian:bookworm-20240211 AS builder
+FROM docker.io/library/debian:bookworm-20240513 AS builder
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install packages
@@ -119,7 +119,7 @@ RUN \
     /usr/local/bin/yt-dlp
 
 # Main image
-FROM docker.io/library/debian:bookworm-20240211
+FROM docker.io/library/debian:bookworm-20240513
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 #FIXME: mdns-scan not available in arm64 so removed from apt-get install
@@ -143,6 +143,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     lame=3.100-6 \
     librsvg2-bin=2.54.7+dfsg-1~deb12u1 \
     libxml2-utils=2.9.14+dfsg-1.3~deb12u1 \
+    make=4.3-4.1 \
     # mdns-scan=0.5-5+b1 \
     moreutils=0.67-1 \
     mtr=0.95-1 \
@@ -159,6 +160,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     sqlite3=3.40.1-2 \
     traceroute=1:2.1.2-1 \
     tree=2.1.0-1 \
+    unzip=6.0-28 \
     usbutils=1:014-1+deb12u1 \
     xz-utils=5.4.1-0.2 \
   && \
