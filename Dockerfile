@@ -12,7 +12,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
   apt-get install -y --no-install-recommends \
     build-essential=12.9 \
     ca-certificates=20230311 \
-    curl=7.88.1-10+deb12u6 \
+    curl=7.88.1-10+deb12u7 \
   && \
   apt-get clean \
   && \
@@ -130,8 +130,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
   apt-get install -y --no-install-recommends \
     apt-utils=2.6.1 \
     ca-certificates=20230311 \
-    curl=7.88.1-10+deb12u6 \
-    dnsutils=1:9.18.24-1 \
+    curl=7.88.1-10+deb12u7 \
+    dnsutils=1:9.18.28-1~deb12u2 \
     fio=3.33-3 \
     flac=1.4.2+ds-2 \
     git=1:2.39.2-1.1 \
